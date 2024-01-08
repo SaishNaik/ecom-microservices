@@ -1,0 +1,30 @@
+syntax="proto3";
+
+package ecom_microservices.product.v1;
+
+import "google/api/annotations.proto";
+
+option go_package="github.com/SaishNaik/ecom_microservices/product/proto/gen";
+
+message Product{
+  string name= 1;
+  double price = 2;
+  string image=3;
+  string sku=4;
+}
+message GetAllProductsRequest{}
+
+message GetAllProductsResponse{
+  repeated Product products = 1;
+}
+
+service ProductService{
+  rpc GetAllProducts(GetAllProductsRequest) returns (GetAllProductsResponse){
+    option (google.api.http) = {
+            get: "/v1/products"
+    };
+  }
+}
+
+
+

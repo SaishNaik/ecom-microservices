@@ -1,0 +1,26 @@
+version: "3"
+services:
+  product:
+    build:
+      context: ./product
+      dockerfile: Dockerfile.dev
+    image: product
+    environment:
+      - PG_DNS=postgres://root:root@postgres:5432/root
+    ports:
+      - "5000:5000"
+#    healthcheck:
+#      test: ["CMD-SHELL","curl -f localhost:5000 || exit 1"]
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:16.1-alpine3.19
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=root
+    healthcheck:
+      test: ["CMD","pg_isready"]
+
